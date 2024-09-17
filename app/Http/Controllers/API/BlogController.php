@@ -78,7 +78,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blogs::all();
+        $blogs = Blogs::with('author')->get();
 
         if(!empty($blogs)){
             return response()->json([

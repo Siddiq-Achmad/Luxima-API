@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>LUXIMA API Documentation</title>
+        <title>LUXIMA API | LUXIMA.ID</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -64,7 +64,7 @@
                                 <div id="screenshot-container" class="relative flex w-full flex-1 items-stretch">
                                     <img
                                         src="/images/restapi.jpg"
-                                        alt="Laravel documentation screenshot"
+                                        alt="Luxima documentation screenshot"
                                         class="aspect-video h-full w-full flex-1 rounded-[10px] object-top object-cover drop-shadow-[0px_4px_34px_rgba(0,0,0,0.06)] dark:hidden"
                                         onerror="
                                             document.getElementById('screenshot-container').classList.add('!hidden');
@@ -74,8 +74,8 @@
                                         "
                                     />
                                     <img
-                                        src="https://laravel.com/assets/img/welcome/docs-dark.svg"
-                                        alt="Laravel documentation screenshot"
+                                        src="/images/restapi.jpg"
+                                        alt="Luxima documentation screenshot"
                                         class="hidden aspect-video h-full w-full flex-1 rounded-[10px] object-top object-cover drop-shadow-[0px_4px_34px_rgba(0,0,0,0.25)] dark:block"
                                     />
                                     <div

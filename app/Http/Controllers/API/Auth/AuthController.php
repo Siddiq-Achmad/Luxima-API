@@ -8,71 +8,71 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-    /**
-     * @OA\Info(
-     *     title="LUXIMA API Documentation",
-     *     version="1.0.0",
-     *     description="This is the API documentation for the Luxima project. It covers all endpoints related to authentication and other functionalities.",
-     *     @OA\Contact(
-     *         email="admin@luxima.id"
-     *     ),
-     * )
-     * 
-     *  * @OA\Server(
-     *     url="http://localhost:8000/api",
-     *     description="LUXIMA API Server"
-     * )
-     *
-     * @OA\Schema(
-     *     schema="User",
-     *     type="object",
-     *     title="User",
-     *     description="User model",
-     *     required={"id", "name", "email"},
-     *     @OA\Property(
-     *         property="id",
-     *         type="integer",
-     *         format="int64",
-     *         example=1
-     *     ),
-     *     @OA\Property(
-     *         property="name",
-     *         type="string",
-     *         example="John Doe"
-     *     ),
-     *     @OA\Property(
-     *         property="email",
-     *         type="string",
-     *         format="email",
-     *         example="johndoe@luxima.id"
-     *     ),
-     *     @OA\Property(
-     *         property="password",
-     *         type="string",
-     *         format="password",
-     *         example="12345678"
-     *     ),
-     *     @OA\Property(
-     *         property="password_confirmation",
-     *         type="string",
-     *         format="password",
-     *         example="12345678"
-     *     ),
-     *     @OA\Property(
-     *         property="created_at",
-     *         type="string",
-     *         format="date-time",
-     *         example="2024-09-03T12:34:56Z"
-     *     ),
-     *     @OA\Property(
-     *         property="updated_at",
-     *         type="string",
-     *         format="date-time",
-     *         example="2024-09-03T12:34:56Z"
-     *     ),
-     * )
-     */
-   
+/**
+ * @OA\Info(
+ *     title="LUXIMA API Documentation",
+ *     version="1.0.0",
+ *     description="This is the API documentation for the Luxima project. It covers all endpoints related to authentication and other functionalities.",
+ *     @OA\Contact(
+ *         email="admin@luxima.id"
+ *     ),
+ * )
+ * 
+ *  * @OA\Server(
+ *     url="https://api.luxima.id/api",
+ *     description="LUXIMA API Server"
+ * )
+ *
+ * @OA\Schema(
+ *     schema="User",
+ *     type="object",
+ *     title="User",
+ *     description="User model",
+ *     required={"id", "name", "email"},
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         format="int64",
+ *         example=1
+ *     ),
+ *     @OA\Property(
+ *         property="name",
+ *         type="string",
+ *         example="John Doe"
+ *     ),
+ *     @OA\Property(
+ *         property="email",
+ *         type="string",
+ *         format="email",
+ *         example="johndoe@luxima.id"
+ *     ),
+ *     @OA\Property(
+ *         property="password",
+ *         type="string",
+ *         format="password",
+ *         example="12345678"
+ *     ),
+ *     @OA\Property(
+ *         property="password_confirmation",
+ *         type="string",
+ *         format="password",
+ *         example="12345678"
+ *     ),
+ *     @OA\Property(
+ *         property="created_at",
+ *         type="string",
+ *         format="date-time",
+ *         example="2024-09-03T12:34:56Z"
+ *     ),
+ *     @OA\Property(
+ *         property="updated_at",
+ *         type="string",
+ *         format="date-time",
+ *         example="2024-09-03T12:34:56Z"
+ *     ),
+ * )
+ */
+
 class AuthController extends Controller
 {
     //
@@ -163,18 +163,14 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if(!empty($user))
-        {
-            if(!Hash::check($request->password, $user->password))
-            {
+        if (!empty($user)) {
+            if (!Hash::check($request->password, $user->password)) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Password is not correct'
                 ], 401);
             }
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'User not found'
@@ -213,14 +209,15 @@ class AuthController extends Controller
      *         )
      *     )
      * )
-     */    
+     */
     public function logout(Request $request)
     {
         $token = $request->user()->token();
         $token->revoke();
         $response = [
             'status' => 'success',
-            'message' => 'You have been successfully logged out!'];
+            'message' => 'You have been successfully logged out!'
+        ];
         return response($response, 200);
     }
 
@@ -258,7 +255,8 @@ class AuthController extends Controller
         $user = Auth::user();
         return response()->json([
             'status' => 'success',
-            'user' => $user], 200);
+            'user' => $user
+        ], 200);
     }
 
     //Refresh Token API Passport
@@ -294,5 +292,4 @@ class AuthController extends Controller
             'token' => $token
         ], 200);
     }
-    
 }

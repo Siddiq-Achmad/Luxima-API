@@ -9,7 +9,7 @@ use App\Http\Controllers\API\BlogController;
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:api');
-
+Route::get('/blogs', [BlogController::class, 'index']);
 
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -21,7 +21,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/profile', [AuthController::class, 'profile']);
 
     Route::post('/blogs', [BlogController::class, 'store']);
-    Route::get('/blogs', [BlogController::class, 'index']);
+    //Route::get('/blogs', [BlogController::class, 'index']);
     Route::get('/blogs/{id}', [BlogController::class, 'show']);
     Route::put('/blogs/{id}', [BlogController::class, 'update']);
     Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);

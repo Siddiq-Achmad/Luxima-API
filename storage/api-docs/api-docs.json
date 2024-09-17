@@ -10,7 +10,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8000/api",
+            "url": "https://api.luxima.id/api",
             "description": "LUXIMA API Server"
         }
     ],
