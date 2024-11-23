@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class Blogs extends Model
+class Blog extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable; 
+    use HasFactory, SoftDeletes, Sluggable;
 
     protected $guarded = [];
 
@@ -27,5 +27,20 @@ class Blogs extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('d-m-Y H:i:s');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('d-m-Y H:i:s');
+    }
+
+    public function getDeletedAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('d-m-Y H:i:s') : null;
     }
 }

@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -49,8 +50,34 @@ class User extends Authenticatable
         ];
     }
 
+    public function getCreatedAtAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('d-m-Y H:i:s');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('d-m-Y H:i:s');
+    }
+
+    public function getDeletedAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('d-m-Y H:i:s') : null;
+    }
+
+
     public function blogs()
     {
-        return $this->hasMany(Blogs::class, 'user_id');
+        return $this->hasMany(Blog::class, 'user_id');
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'user_id');
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'user_id');
     }
 }

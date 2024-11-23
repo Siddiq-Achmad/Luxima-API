@@ -16,10 +16,26 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@luxima.id',
-            'password' => Hash::make('12345678'),
+        // User::factory()->create([
+        //     'name' => 'Admin',
+        //     'email' => 'admin@luxima.id',
+        //     'password' => Hash::make('12345678'),
+        // ]);
+        // User::factory()->create([
+        //     'name' => 'Siddiq Achmad',
+        //     'email' => 'siddiq@luxima.id',
+        //     'password' => Hash::make('12345678'),
+        // ]);
+        $this->call([
+            UserSeeder::class,
+            BlogSeeder::class,
+            CategorySeeder::class,
+            LocationSeeder::class,
+            VendorSeeder::class,
+            ServiceSeeder::class,
+            BookingSeeder::class,
+            ReviewSeeder::class,
+            PersonalAccessTokenSeeder::class,
         ]);
     }
 }

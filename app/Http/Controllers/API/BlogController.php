@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Blogs;
+use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\BlogResource;
 
 /**
  * @OA\Tag(
- *     name="Blogs",
- *     description="API Endpoints for Blogs"
+ *     name="Blog",
+ *     description="API Endpoints for Blog"
  * )
  *
  *
@@ -61,11 +62,11 @@ class BlogController extends Controller
     //List API Blog
     /**
      * @OA\Get(
-     *     path="/blogs",
-     *     operationId="indexBlogs",
-     *     tags={"Blogs"},
-     *     summary="Get all blogs",
-     *     description="Retrieve a list of all blogs.",
+     *     path="/blog",
+     *     operationId="indexBlog",
+     *     tags={"Blog"},
+     *     summary="Get all Blog",
+     *     description="Retrieve a list of all Blog.",
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -78,19 +79,20 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blogs::with('author')->get();
+        $blog = Blog::with('author')->get();
+        $length = count($blog);
 
-        if(!empty($blogs)){
+        if (!empty($blog)) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'All blogs',
-                'data' => $blogs,
+                'message' => 'Data Blog',
+                'data' => BlogResource::collection($blog),
+                'length' => $length
             ], 200);
-        }
-        else{
+        } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'No blog found',
+                'message' => 'Blog not found',
             ], 404);
         }
     }
@@ -98,10 +100,10 @@ class BlogController extends Controller
     //List Blog API - by Auth
     /**
      * @OA\Get(
-     *     path="/list-blogs",
-     *     operationId="listBlogsForAuthUser",
-     *     tags={"Blogs"},
-     *     summary="Get blogs for authenticated user",
+     *     path="/list-blog",
+     *     operationId="listBlogForAuthUser",
+     *     tags={"Blog"},
+     *     summary="Get Blog for authenticated user",
      *     description="Retrieve all blog posts for the currently authenticated user.",
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
@@ -118,19 +120,19 @@ class BlogController extends Controller
      *     )
      * )
      */
-    public function listBlogs()
+    public function listBlog()
     {
-        $blogs = Blogs::where('user_id', Auth::user()->id)->get();
+        $Blog = Blog::where('user_id', Auth::user()->id)->get();
+        $length = count($Blog);
 
-        if(!empty($blogs))
-        {
+        if (!empty($Blog)) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'All blogs',
-                'data' => $blogs,
+                'message' => 'All Blog',
+                'data' => BlogResource::collection($Blog),
+                'length' => $length
             ], 200);
-        }
-        else{
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'No blog found',
@@ -143,7 +145,7 @@ class BlogController extends Controller
      * @OA\Get(
      *     path="/blog-details/{blog_id}",
      *     operationId="getSingleBlogForAuthUser",
-     *     tags={"Blogs"},
+     *     tags={"Blog"},
      *     summary="Get a single blog for authenticated user",
      *     description="Retrieve the details of a specific blog post for the currently authenticated user.",
      *     security={{"bearerAuth":{}}},
@@ -171,18 +173,15 @@ class BlogController extends Controller
      */
     public function getSingleBlog($blog_id)
     {
-        $blog = Blogs::where('id', $blog_id, 'user_id', Auth::user()->id)->first();
+        $blog = Blog::where('id', $blog_id, 'user_id', Auth::user()->id)->first();
 
-        if(!empty($blog))
-        {
+        if (!empty($blog)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Blog details',
                 'data' => $blog,
             ], 200);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'No blog found',
@@ -195,7 +194,7 @@ class BlogController extends Controller
      * @OA\Get(
      *     path="/blog/{slug}",
      *     operationId="getBlogBySlug",
-     *     tags={"Blogs"},
+     *     tags={"Blog"},
      *     summary="Get blog by slug",
      *     description="Retrieve the details of a specific blog post by its slug.",
      *     @OA\Parameter(
@@ -219,18 +218,15 @@ class BlogController extends Controller
      */
     public function getBlogBySlug($slug)
     {
-        $blog = Blogs::where('slug', $slug)->first();
+        $blog = Blog::with('author')->where('slug', $slug)->first();
 
-        if(!empty($blog))
-        {
+        if (!empty($blog)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Blog details',
-                'data' => $blog,
+                'data' => new BlogResource($blog),
             ], 200);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'No blog found',
@@ -241,9 +237,9 @@ class BlogController extends Controller
     //Detail Blog API - by ID
     /**
      * @OA\Get(
-     *     path="/blogs/{id}",
+     *     path="/Blog/{id}",
      *     operationId="showBlog",
-     *     tags={"Blogs"},
+     *     tags={"Blog"},
      *     summary="Get a blog by ID",
      *     description="Retrieve the details of a specific blog post.",
      *     @OA\Parameter(
@@ -266,18 +262,15 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        $blog = Blogs::find($id);
+        $blog = Blog::with('author')->find($id);
 
-        if(!empty($blog))
-        {
+        if (!empty($blog)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Blog details',
-                'data' => $blog,
+                'data' => new BlogResource($blog),
             ], 200);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'No blog found',
@@ -288,9 +281,9 @@ class BlogController extends Controller
     //Store API Blog
     /**
      * @OA\Post(
-     *     path="/blogs",
+     *     path="/Blog",
      *     operationId="storeBlog",
-     *     tags={"Blogs"},
+     *     tags={"Blog"},
      *     summary="Create a new blog",
      *     description="Create a new blog post.",
      *     @OA\RequestBody(
@@ -315,21 +308,21 @@ class BlogController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'user_id' => 'required|exists:users,id',
         ]);
 
         //upload API image
-        if($request->hasFile('image'))
-        {
+        if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
             $image = basename($imagePath);
         }
-        $blog = Blogs::create([
+        $blog = Blog::create([
             'title' => $request->title,
             'content' => $request->content,
             'image' => $image,
             'user_id' => auth()->user()->id,
         ]);
-        
+
         return response()->json([
             'status' => 'success',
             'message' => 'Blog created successfully',
@@ -339,9 +332,9 @@ class BlogController extends Controller
     //Update API Blog
     /**
      * @OA\Put(
-     *     path="/blogs/{id}",
+     *     path="/blog/{id}",
      *     operationId="updateBlog",
-     *     tags={"Blogs"},
+     *     tags={"Blog"},
      *     summary="Update a blog",
      *     description="Update the details of a specific blog post.",
      *     @OA\Parameter(
@@ -372,7 +365,7 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $blog = Blogs::find($id);
+        $blog = Blog::find($id);
 
         $request->validate([
             'title' => 'required|string|max:255',
@@ -381,11 +374,9 @@ class BlogController extends Controller
         ]);
 
 
-        if(!empty($blog))
-        {
+        if (!empty($blog)) {
             //upload API image
-            if($request->hasFile('image'))
-            {
+            if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store('images', 'public');
                 $image = basename($imagePath);
             }
@@ -399,9 +390,7 @@ class BlogController extends Controller
                 'status' => 'success',
                 'message' => 'Blog updated successfully',
             ], 200);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'No blog found',
@@ -410,11 +399,11 @@ class BlogController extends Controller
     }
 
     //Delete API Blog
-   /**
+    /**
      * @OA\Delete(
-     *     path="/blogs/{id}",
+     *     path="/blog/{id}",
      *     operationId="destroyBlog",
-     *     tags={"Blogs"},
+     *     tags={"Blog"},
      *     summary="Delete a blog",
      *     description="Delete a specific blog post.",
      *     @OA\Parameter(
@@ -436,23 +425,19 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        $blog = Blogs::find($id);
+        $blog = Blog::find($id);
 
-        if(!empty($blog))
-        {
+        if (!empty($blog)) {
             $blog->delete();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Blog deleted successfully',
             ], 200);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'No blog found',
             ], 404);
         }
     }
-
 }
