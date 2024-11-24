@@ -148,7 +148,6 @@ class BlogController extends Controller
      *     tags={"Blog"},
      *     summary="Get a single blog for authenticated user",
      *     description="Retrieve the details of a specific blog post for the currently authenticated user.",
-     *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -173,6 +172,8 @@ class BlogController extends Controller
      */
     public function getSingleBlog($blog_id)
     {
+
+
         $blog = Blog::where('id', $blog_id, 'user_id', Auth::user()->id)->first();
 
         if (!empty($blog)) {
@@ -285,6 +286,7 @@ class BlogController extends Controller
      *     operationId="storeBlog",
      *     tags={"Blog"},
      *     summary="Create a new blog",
+     *     security=" {{\"bearerAuth\":{}}}",
      *     description="Create a new blog post.",
      *     @OA\RequestBody(
      *         required=true,
@@ -336,6 +338,7 @@ class BlogController extends Controller
      *     operationId="updateBlog",
      *     tags={"Blog"},
      *     summary="Update a blog",
+     *     security=" {{\"bearerAuth\":{}}}",
      *     description="Update the details of a specific blog post.",
      *     @OA\Parameter(
      *         name="id",
@@ -405,6 +408,7 @@ class BlogController extends Controller
      *     operationId="destroyBlog",
      *     tags={"Blog"},
      *     summary="Delete a blog",
+     *     security=" {{\"bearerAuth\":{}}}",
      *     description="Delete a specific blog post.",
      *     @OA\Parameter(
      *         name="id",

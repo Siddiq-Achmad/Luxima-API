@@ -48,14 +48,12 @@ class LocationController extends Controller
         //
         $location = Location::whereHas('vendors')->where('slug', $slug)->first();
 
-
         if (!empty($location)) {
-            $length = $location->count;
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data Location',
                 'data' => new LocationResource($location),
-                'length' => $length
             ], 200);
         } else {
             return response()->json([

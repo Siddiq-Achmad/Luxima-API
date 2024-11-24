@@ -303,14 +303,14 @@
                 ]
             }
         },
-        "/blogs": {
+        "/blog": {
             "get": {
                 "tags": [
-                    "Blogs"
+                    "Blog"
                 ],
-                "summary": "Get all blogs",
-                "description": "Retrieve a list of all blogs.",
-                "operationId": "indexBlogs",
+                "summary": "Get all Blog",
+                "description": "Retrieve a list of all Blog.",
+                "operationId": "indexBlog",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -326,49 +326,16 @@
                         }
                     }
                 }
-            },
-            "post": {
-                "tags": [
-                    "Blogs"
-                ],
-                "summary": "Create a new blog",
-                "description": "Create a new blog post.",
-                "operationId": "storeBlog",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/BlogCreateRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Blog created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Blog"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request"
-                    }
-                }
             }
         },
-        "/list-blogs": {
+        "/list-blog": {
             "get": {
                 "tags": [
-                    "Blogs"
+                    "Blog"
                 ],
-                "summary": "Get blogs for authenticated user",
+                "summary": "Get Blog for authenticated user",
                 "description": "Retrieve all blog posts for the currently authenticated user.",
-                "operationId": "listBlogsForAuthUser",
+                "operationId": "listBlogForAuthUser",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -397,7 +364,7 @@
         "/blog-details/{blog_id}": {
             "get": {
                 "tags": [
-                    "Blogs"
+                    "Blog"
                 ],
                 "summary": "Get a single blog for authenticated user",
                 "description": "Retrieve the details of a specific blog post for the currently authenticated user.",
@@ -441,7 +408,7 @@
         "/blog/{slug}": {
             "get": {
                 "tags": [
-                    "Blogs"
+                    "Blog"
                 ],
                 "summary": "Get blog by slug",
                 "description": "Retrieve the details of a specific blog post by its slug.",
@@ -474,10 +441,10 @@
                 }
             }
         },
-        "/blogs/{id}": {
+        "/Blog/{id}": {
             "get": {
                 "tags": [
-                    "Blogs"
+                    "Blog"
                 ],
                 "summary": "Get a blog by ID",
                 "description": "Retrieve the details of a specific blog post.",
@@ -508,10 +475,47 @@
                         "description": "Blog not found"
                     }
                 }
-            },
+            }
+        },
+        "/Blog": {
+            "post": {
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Create a new blog",
+                "description": "Create a new blog post.",
+                "operationId": "storeBlog",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BlogCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Blog created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Blog"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/blog/{id}": {
             "put": {
                 "tags": [
-                    "Blogs"
+                    "Blog"
                 ],
                 "summary": "Update a blog",
                 "description": "Update the details of a specific blog post.",
@@ -558,7 +562,7 @@
             },
             "delete": {
                 "tags": [
-                    "Blogs"
+                    "Blog"
                 ],
                 "summary": "Delete a blog",
                 "description": "Delete a specific blog post.",
@@ -582,6 +586,182 @@
                         "description": "Blog not found"
                     }
                 }
+            }
+        },
+        "/vendors": {
+            "get": {
+                "tags": [
+                    "Vendor"
+                ],
+                "summary": "Menampilkan semua data vendor",
+                "operationId": "1d0aa57c9db3be1d9403f33a7c041af2",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan daftar vendor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Vendor"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, token tidak valid"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/search": {
+            "get": {
+                "tags": [
+                    "Vendor"
+                ],
+                "summary": "Pencarian vendor berdasarkan keyword, kategori, atau lokasi",
+                "operationId": "bb50fd6bf54b7f73e6c0dcee3a58f54b",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Kata kunci pencarian",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Slug kategori",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "Lokasi vendor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan hasil pencarian vendor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Vendor"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Parameter query tidak valid"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/vendor/{slug}": {
+            "get": {
+                "tags": [
+                    "Vendor"
+                ],
+                "summary": "Menampilkan detail vendor berdasarkan slug",
+                "operationId": "3b0134ad8ea02ab1464466cac22c46bc",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug unik dari vendor",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan detail vendor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Vendor"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vendor tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/{slug}": {
+            "get": {
+                "tags": [
+                    "Vendor"
+                ],
+                "summary": "Menampilkan semua vendor berdasarkan kategori",
+                "operationId": "9918563d18c6ed38945830c7f4755043",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug unik dari kategori",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan daftar vendor berdasarkan kategori",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Vendor"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Kategori tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         }
     },
@@ -706,6 +886,52 @@
                     }
                 },
                 "type": "object"
+            },
+            "Vendor": {
+                "title": "Vendor",
+                "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "location"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID unik vendor",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Nama vendor",
+                        "type": "string"
+                    },
+                    "slug": {
+                        "description": "Slug unik vendor",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Deskripsi vendor",
+                        "type": "string"
+                    },
+                    "location": {
+                        "description": "Lokasi vendor",
+                        "type": "string"
+                    },
+                    "category": {
+                        "description": "Kategori vendor",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Waktu pembuatan data vendor",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Waktu update data vendor",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
@@ -713,13 +939,23 @@
                 "type": "http",
                 "bearerFormat": "JWT",
                 "scheme": "bearer"
+            },
+            "passport": {
+                "type": "oauth2",
+                "description": "Gunakan token OAuth2 untuk mengakses endpoint",
+                "flows": {
+                    "password": {
+                        "tokenUrl": "/oauth/token",
+                        "scopes": {}
+                    }
+                }
             }
         }
     },
     "tags": [
         {
-            "name": "Blogs",
-            "description": "API Endpoints for Blogs"
+            "name": "Blog",
+            "description": "API Endpoints for Blog"
         },
         {
             "name": "Auth",
@@ -728,6 +964,10 @@
         {
             "name": "Profile",
             "description": "Profile"
+        },
+        {
+            "name": "Vendor",
+            "description": "Vendor"
         }
     ]
 }

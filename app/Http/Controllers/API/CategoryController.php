@@ -16,6 +16,7 @@ class CategoryController extends Controller
     {
         //
         $categories = Category::all();
+
         if (!empty($categories)) {
             return response()->json([
                 'status' => 'success',

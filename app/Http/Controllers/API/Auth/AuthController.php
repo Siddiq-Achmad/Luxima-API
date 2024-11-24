@@ -156,10 +156,13 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+
         $request->validate([
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
         ]);
+
+
 
         $user = User::where('email', $request->email)->first();
 
@@ -253,9 +256,14 @@ class AuthController extends Controller
     public function profile()
     {
         $user = Auth::user();
+
         return response()->json([
             'status' => 'success',
-            'user' => $user
+            'data' => [
+                'user' => $user,
+                'roles' => $user->getRoleNames(),
+                'permissions' => $user->getAllPermissions()->pluck('name'),
+            ]
         ], 200);
     }
 
