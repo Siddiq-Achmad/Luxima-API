@@ -295,9 +295,8 @@ class VendorController extends Controller
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Data Vendor Not Found',
-                'data' => [],
-                'length' => $length
+                'message' => 'Data not Found',
+                'code' => 404,
             ], 404);
         }
     }
