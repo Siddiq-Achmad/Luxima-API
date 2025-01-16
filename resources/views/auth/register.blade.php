@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Luxima Authentications</title>
   <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
-  @vite(['resources/css/styles.min.css', 'resources/js/app.min.js'])
+  
 </head>
 
 <body>

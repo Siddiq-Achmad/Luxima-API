@@ -158,29 +158,16 @@ class AuthController extends Controller
     {
 
         $request->validate([
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:8',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-
-
-        $user = User::where('email', $request->email)->first();
-
-        if (!empty($user)) {
-            if (!Hash::check($request->password, $user->password)) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Password is not correct'
-                ], 401);
-            }
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'User not found'
-            ], 401);
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+        $user = Auth::user();
+        $token = $user->createToken('API Token')->accessToken;
 
         return response()->json([
             'status' => 'success',
