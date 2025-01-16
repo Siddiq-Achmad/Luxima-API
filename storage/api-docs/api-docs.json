@@ -356,7 +356,7 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "passport": []
                     }
                 ]
             }
@@ -397,12 +397,7 @@
                     "404": {
                         "description": "Blog not found"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/blog/{slug}": {
@@ -509,7 +504,12 @@
                     "400": {
                         "description": "Bad request"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         },
         "/blog/{id}": {
@@ -558,7 +558,12 @@
                     "404": {
                         "description": "Blog not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -585,6 +590,203 @@
                     "404": {
                         "description": "Blog not found"
                     }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/bookings": {
+            "get": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Show all Bookings",
+                "description": "Retrieve a list of all Bookings.",
+                "operationId": "2a8518bafccd7b95f3cb325c26f32963",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved Bookings",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Booking"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, token tidak valid"
+                    }
+                }
+            }
+        },
+        "/booking/{id}": {
+            "get": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Show detail booking by id",
+                "description": "Retrieve detail data booking by id.",
+                "operationId": "0c99932638468b76e93434ad208239e6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique booking id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data Booking Detail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Booking"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Booking not found"
+                    }
+                }
+            }
+        },
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Show all Categories",
+                "description": "Retrieve a list of all Categories.",
+                "operationId": "11dc7bee7f8ad5b8d0a6a33493c5ea92",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved Categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, token tidak valid"
+                    }
+                }
+            }
+        },
+        "/category/{slug}": {
+            "get": {
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Show detail category by slug",
+                "description": "Retrieve detail data category by slug.",
+                "operationId": "22ac95e86319ac642d72e9ed0fe15a56",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Unique category slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data Category Detail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                }
+            }
+        },
+        "/locations": {
+            "get": {
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Show all Locations",
+                "description": "Retrieve a list of all Locations.",
+                "operationId": "2be5659d02ad51e62526d661084c6d41",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved Locations",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Location"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized, token tidak valid"
+                    }
+                }
+            }
+        },
+        "/location/{slug}": {
+            "get": {
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Show detail location by slug",
+                "description": "Retrieve detail data location by slug.",
+                "operationId": "c9d5f519cca98fa219c78b5e32f099dd",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Unique location slug",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data Vendor Detail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Location"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Location not found"
+                    }
                 }
             }
         },
@@ -593,11 +795,12 @@
                 "tags": [
                     "Vendor"
                 ],
-                "summary": "Menampilkan semua data vendor",
+                "summary": "Show all vendors",
+                "description": "Retrieve a list of all vendors.",
                 "operationId": "1d0aa57c9db3be1d9403f33a7c041af2",
                 "responses": {
                     "200": {
-                        "description": "Berhasil menampilkan daftar vendor",
+                        "description": "Successfully retrieved vendors",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -612,12 +815,7 @@
                     "401": {
                         "description": "Unauthorized, token tidak valid"
                     }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
+                }
             }
         },
         "/search": {
@@ -625,13 +823,14 @@
                 "tags": [
                     "Vendor"
                 ],
-                "summary": "Pencarian vendor berdasarkan keyword, kategori, atau lokasi",
+                "summary": "Search for vendors based on keyword, category, and location",
+                "description": "Search for vendors based on a keyword, category, and location.",
                 "operationId": "bb50fd6bf54b7f73e6c0dcee3a58f54b",
                 "parameters": [
                     {
                         "name": "q",
                         "in": "query",
-                        "description": "Kata kunci pencarian",
+                        "description": "Search keyword",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -640,7 +839,7 @@
                     {
                         "name": "category",
                         "in": "query",
-                        "description": "Slug kategori",
+                        "description": "Slug by category",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -658,7 +857,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Berhasil menampilkan hasil pencarian vendor",
+                        "description": "Data Result Search",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -671,14 +870,9 @@
                         }
                     },
                     "400": {
-                        "description": "Parameter query tidak valid"
+                        "description": "Invalid request parameters"
                     }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
+                }
             }
         },
         "/vendor/{slug}": {
@@ -686,13 +880,14 @@
                 "tags": [
                     "Vendor"
                 ],
-                "summary": "Menampilkan detail vendor berdasarkan slug",
+                "summary": "Show detail vendor by slug",
+                "description": "Retrieve detail data vendor by slug.",
                 "operationId": "3b0134ad8ea02ab1464466cac22c46bc",
                 "parameters": [
                     {
                         "name": "slug",
                         "in": "path",
-                        "description": "Slug unik dari vendor",
+                        "description": "Unique vendor slug",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -701,7 +896,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Berhasil menampilkan detail vendor",
+                        "description": "Data Vendor Detail",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -711,14 +906,9 @@
                         }
                     },
                     "404": {
-                        "description": "Vendor tidak ditemukan"
+                        "description": "Vendor not found"
                     }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
+                }
             }
         },
         "/{slug}": {
@@ -726,13 +916,14 @@
                 "tags": [
                     "Vendor"
                 ],
-                "summary": "Menampilkan semua vendor berdasarkan kategori",
+                "summary": "Get Data Vendor By Category",
+                "description": "Retrieve a list of vendors by category.",
                 "operationId": "9918563d18c6ed38945830c7f4755043",
                 "parameters": [
                     {
                         "name": "slug",
                         "in": "path",
-                        "description": "Slug unik dari kategori",
+                        "description": "Unique Slug",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -741,7 +932,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Berhasil menampilkan daftar vendor berdasarkan kategori",
+                        "description": "Vendor dengan kategori ",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -754,14 +945,9 @@
                         }
                     },
                     "404": {
-                        "description": "Kategori tidak ditemukan"
+                        "description": "Vendor tidak ditemukan"
                     }
-                },
-                "security": [
-                    {
-                        "passport": []
-                    }
-                ]
+                }
             }
         }
     },
@@ -887,6 +1073,139 @@
                 },
                 "type": "object"
             },
+            "Booking": {
+                "title": "Booking",
+                "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "location"
+                ],
+                "properties": {
+                    "id": {
+                        "description": " ID Booking",
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "description": "User ID Booking",
+                        "type": "integer"
+                    },
+                    "vendor_id": {
+                        "description": "Vendor ID Booking",
+                        "type": "integer"
+                    },
+                    "service_id": {
+                        "description": "Service ID Booking",
+                        "type": "integer"
+                    },
+                    "event_id": {
+                        "description": "Event ID Booking",
+                        "type": "integer"
+                    },
+                    "location_id": {
+                        "description": "Location ID Booking",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Booking name",
+                        "type": "string"
+                    },
+                    "total_amount": {
+                        "description": "Booking total amount",
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "description": "Booking created at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Booking updated at",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "title": "Categories",
+                "required": [
+                    "name",
+                    "slug",
+                    "description",
+                    "image"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Category name",
+                        "type": "string"
+                    },
+                    "slug": {
+                        "description": "Unique slug for category",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Category description",
+                        "type": "string"
+                    },
+                    "image": {
+                        "description": "Category image",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Location": {
+                "title": "Location",
+                "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "location"
+                ],
+                "properties": {
+                    "id": {
+                        "description": " ID vendor",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Location name",
+                        "type": "string"
+                    },
+                    "slug": {
+                        "description": "Unique slug for vendor",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Location description",
+                        "type": "string"
+                    },
+                    "location": {
+                        "description": "Location location",
+                        "type": "string"
+                    },
+                    "category": {
+                        "description": "Location category",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Location created at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Location updated at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "description": "Location deleted at",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "Vendor": {
                 "title": "Vendor",
                 "required": [
@@ -897,58 +1216,46 @@
                 ],
                 "properties": {
                     "id": {
-                        "description": "ID unik vendor",
+                        "description": " ID vendor",
                         "type": "integer"
                     },
                     "name": {
-                        "description": "Nama vendor",
+                        "description": "Vendor name",
                         "type": "string"
                     },
                     "slug": {
-                        "description": "Slug unik vendor",
+                        "description": "Unique slug for vendor",
                         "type": "string"
                     },
                     "description": {
-                        "description": "Deskripsi vendor",
+                        "description": "Vendor description",
                         "type": "string"
                     },
                     "location": {
-                        "description": "Lokasi vendor",
+                        "description": "Vendor location",
                         "type": "string"
                     },
                     "category": {
-                        "description": "Kategori vendor",
+                        "description": "Vendor category",
                         "type": "string"
                     },
                     "created_at": {
-                        "description": "Waktu pembuatan data vendor",
+                        "description": "Vendor created at",
                         "type": "string",
                         "format": "date-time"
                     },
                     "updated_at": {
-                        "description": "Waktu update data vendor",
+                        "description": "Vendor updated at",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "description": "Vendor deleted at",
                         "type": "string",
                         "format": "date-time"
                     }
                 },
                 "type": "object"
-            }
-        },
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "bearerFormat": "JWT",
-                "scheme": "bearer"
-            },
-            "passport": {
-                "type": "oauth2",
-                "description": "Gunakan token OAuth2 untuk mengakses endpoint",
-                "flows": {
-                    "password": {
-                        "tokenUrl": "/oauth/token",
-                        "scopes": {}
-                    }
-                }
             }
         }
     },
@@ -956,6 +1263,18 @@
         {
             "name": "Blog",
             "description": "API Endpoints for Blog"
+        },
+        {
+            "name": "Booking",
+            "description": "API Endpoints for Bookings"
+        },
+        {
+            "name": "Category",
+            "description": "API Endpoints for Categories"
+        },
+        {
+            "name": "Location",
+            "description": "API Endpoints for Locations"
         },
         {
             "name": "Auth",

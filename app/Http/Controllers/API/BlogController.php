@@ -14,13 +14,7 @@ use App\Http\Resources\BlogResource;
  *     description="API Endpoints for Blog"
  * )
  *
- *
- * @OA\SecurityScheme(
- *     securityScheme="bearerAuth",
- *     type="http",
- *     scheme="bearer",
- *     bearerFormat="JWT"
- * )
+
  *
  * @OA\Schema(
  *     schema="Blog",
@@ -105,7 +99,9 @@ class BlogController extends Controller
      *     tags={"Blog"},
      *     summary="Get Blog for authenticated user",
      *     description="Retrieve all blog posts for the currently authenticated user.",
-     *     security={{"bearerAuth":{}}},
+     *     security={
+     *         {"passport": {}}
+     *     },
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -286,7 +282,9 @@ class BlogController extends Controller
      *     operationId="storeBlog",
      *     tags={"Blog"},
      *     summary="Create a new blog",
-     *     security=" {{\"bearerAuth\":{}}}",
+     *     security= {
+     *         {"passport": {}}
+     *     },
      *     description="Create a new blog post.",
      *     @OA\RequestBody(
      *         required=true,
@@ -322,7 +320,7 @@ class BlogController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'image' => $image,
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::user()->id,
         ]);
 
         return response()->json([
@@ -338,7 +336,9 @@ class BlogController extends Controller
      *     operationId="updateBlog",
      *     tags={"Blog"},
      *     summary="Update a blog",
-     *     security=" {{\"bearerAuth\":{}}}",
+     *     security= {
+     *         {"passport": {}}
+     *     },
      *     description="Update the details of a specific blog post.",
      *     @OA\Parameter(
      *         name="id",
@@ -408,7 +408,9 @@ class BlogController extends Controller
      *     operationId="destroyBlog",
      *     tags={"Blog"},
      *     summary="Delete a blog",
-     *     security=" {{\"bearerAuth\":{}}}",
+     *     security={
+     *         {"passport": {}}
+     *     },
      *     description="Delete a specific blog post.",
      *     @OA\Parameter(
      *         name="id",

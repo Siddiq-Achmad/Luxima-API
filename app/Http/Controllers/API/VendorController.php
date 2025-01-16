@@ -16,16 +16,6 @@ use App\Http\Resources\VendorResource;
  * )
  *
  *
- * @OA\SecurityScheme(
- *     securityScheme="passport",
- *     type="oauth2",
- *     description="Gunakan token OAuth2 untuk mengakses endpoint",
- *     @OA\Flow(
- *         flow="password",
- *         tokenUrl="/oauth/token",
- *         scopes={}
- *     )
- * )
  * 
  * @OA\Schema(
  *     schema="Vendor",
