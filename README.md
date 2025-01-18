@@ -53,20 +53,25 @@ This is a brief description of the project.
     git clone https://github.com/Siddiq-Achmad/Luxima-API
     ```
 2. Install the required packages using composer :
-   bash
-   composer install
+    ```bash
+    composer install
+    ```
 3. Install the required packages using npm :
-   bash
-   npm install
+    ```bash
+    npm install
+    ```
 4. Create a new database and update the .env file with the correct database credentials.
 5. Run the following command to create the tables in the database:
-   bash
-   php artisan migrate
+    ```bash
+    php artisan migrate
+    ```
 6. Run the following command to seed the database with some initial data:
-   bash
-   php artisan db:seed
+    ```bash
+    php artisan db:seed
+    ```
 7. Run the following command to start the application:
-   bash
-   php artisan serve
+    ```bash
+    php artisan serve
+    ```
 8. Open a web browser and navigate to http://localhost:8000 to access the application.
 9. You can now use the application to [briefly describe what the user can do].
