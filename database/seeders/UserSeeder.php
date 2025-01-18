@@ -111,6 +111,12 @@ class UserSeeder extends Seeder
             'password' => bcrypt('12345678'), // Ganti dengan password yang sesuai
         ])->assignRole('admin');
 
+        User::create([
+            'name' => 'Siddiq Achmad',
+            'email' => 'siddiq@luxima.id',
+            'password' => bcrypt('12345678'), // Ganti dengan password yang sesuai
+        ])->assignRole('admin');
+
         // Membuat Users biasa
         for ($i = 0; $i < 10; $i++) {
             $user = User::create([

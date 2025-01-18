@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Service;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class ServiceSeeder extends Seeder
 {
@@ -20,7 +21,7 @@ class ServiceSeeder extends Seeder
 
         for ($i = 0; $i < 30; $i++) {
             Service::create([
-                'vendor_id' => $faker->numberBetween(1, 10),
+                'vendor_id' => DB::table('vendors')->inRandomOrder()->first()->id,
                 'service_name' => $faker->name,
                 'description' => $faker->text,
                 'price' => $faker->numberBetween(100000, 10000000),

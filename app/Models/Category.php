@@ -49,6 +49,10 @@ class Category extends Model
         return $value ? \Carbon\Carbon::parse($value)->format('d-m-Y H:i:s') : null;
     }
 
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+    }
 
     public function vendors()
     {

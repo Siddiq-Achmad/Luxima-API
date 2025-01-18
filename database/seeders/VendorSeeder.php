@@ -6,6 +6,9 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Vendor;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+use Unsplash\HttpClient;
+use Unsplash\Photo;
 
 class VendorSeeder extends Seeder
 {
@@ -15,9 +18,17 @@ class VendorSeeder extends Seeder
     public function run(): void
     {
         //
+        HttpClient::init([
+            'applicationId' => env('UNSPLASH_ACCESS_KEY'), // Key Anda di sini
+            'secret' => env('UNSPLASH_SECRET_KEY'),
+            'callbackUrl' => env('UNSPLASH_CALLBACK_URL'),
+            'utmSource' => 'LUXIMA-API'
+        ]);
         $faker = Faker::create();
 
         for ($i = 0; $i < 30; $i++) {
+            $photo = Photo::random(['query' => 'Fashion & Beauty']);
+            $imageUrl = $photo->urls['regular']; // URL gambar dengan resolusi standar
             Vendor::create([
                 'name' => $faker->company,
                 'email' => $faker->email,
@@ -30,10 +41,10 @@ class VendorSeeder extends Seeder
                 'tiktok' => $faker->url,
                 'verified' => $faker->numberBetween(0, 1),
                 'status' => $faker->numberBetween(0, 1),
-                'image' => $faker->imageUrl(640, 480, 'wedding', true),
-                'user_id' => $faker->numberBetween(1, 10),
-                'location_id' => $faker->numberBetween(1, 10),
-                'category_id' => $faker->numberBetween(1, 10),
+                'image' => $imageUrl,
+                'user_id' => DB::table('users')->inRandomOrder()->first()->id,
+                'location_id' => DB::table('locations')->inRandomOrder()->first()->id,
+                'category_id' => DB::table('categories')->inRandomOrder()->first()->id
             ]);
         }
     }

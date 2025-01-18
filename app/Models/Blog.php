@@ -43,4 +43,14 @@ class Blog extends Model
     {
         return $value ? \Carbon\Carbon::parse($value)->format('d-m-Y H:i:s') : null;
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'blog_tag', 'blog_id', 'tag_id');
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Review;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class ReviewSeeder extends Seeder
 {
@@ -19,9 +20,9 @@ class ReviewSeeder extends Seeder
 
         for ($i = 0; $i < 30; $i++) {
             Review::create([
-                'user_id' => $faker->numberBetween(1, 10),
-                'vendor_id' => $faker->numberBetween(1, 10),
-                'service_id' => $faker->numberBetween(1, 10),
+                'user_id' => DB::table('users')->inRandomOrder()->first()->id,
+                'vendor_id' => DB::table('vendors')->inRandomOrder()->first()->id,
+                'service_id' => DB::table('services')->inRandomOrder()->first()->id,
                 'rating' => $faker->numberBetween(1, 5),
                 'comment' => $faker->text,
             ]);

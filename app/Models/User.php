@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\UserDetail;
 
 class User extends Authenticatable
 {
@@ -79,5 +80,10 @@ class User extends Authenticatable
     public function bookings()
     {
         return $this->hasMany(Booking::class, 'user_id');
+    }
+
+    public function details()
+    {
+        return $this->hasOne(UserDetail::class);
     }
 }
