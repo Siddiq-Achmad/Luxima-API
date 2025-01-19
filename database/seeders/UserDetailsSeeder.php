@@ -27,18 +27,18 @@ class UserDetailsSeeder extends Seeder
         $faker = Faker::create();
 
         for ($i = 0; $i < 12; $i++) {
-            $avatar = Photo::random(['query' => 'avatar', 'orientation' => 'squarish']);
-            $avatarUrl = $avatar->urls['regular'];
+            $bg = Photo::random(['query' => 'background', 'orientation' => 'landscape']);
+            $bgUrl = $bg->urls['regular'];
             UserDetail::create([
                 'user_id' => User::query()->inRandomOrder()->first()->id,
                 'phone' => $faker->phoneNumber,
                 'address' => $faker->address,
                 'birth_date' => $faker->date(),
                 'gender' => $faker->randomElement(['male', 'female']),
-                'avatar' => $avatarUrl,
                 'nationality' => $faker->country,
                 'occupation' => $faker->jobTitle,
                 'bio' => $faker->text,
+                'bg_image' => $bgUrl,
                 'social_media' => json_encode([
                     'instagram' => $faker->url,
                     'facebook' => $faker->url,

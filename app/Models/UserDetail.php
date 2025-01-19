@@ -16,10 +16,10 @@ class UserDetail extends Model
         'address',
         'birth_date',
         'gender',
-        'avatar',
         'nationality',
         'occupation',
         'bio',
+        'bg_image',
     ];
 
     protected $casts = [

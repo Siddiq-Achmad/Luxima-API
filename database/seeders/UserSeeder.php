@@ -8,6 +8,8 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Faker\Factory as Faker;
+use Unsplash\HttpClient;
+use Unsplash\Photo;
 
 class UserSeeder extends Seeder
 {
@@ -17,7 +19,17 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         //
+        HttpClient::init([
+            'applicationId' => env('UNSPLASH_ACCESS_KEY'), // Key Anda di sini
+            'secret' => env('UNSPLASH_SECRET_KEY'),
+            'callbackUrl' => env('UNSPLASH_CALLBACK_URL'),
+            'utmSource' => 'LUXIMA-API'
+        ]);
         $faker = Faker::create();
+
+        // Mengambil gambar avatar dari Unsplash
+        $avatarPp = Photo::random(['query' => 'avatar', 'orientation' => 'squarish']);
+        $avatarPpUrl = $avatarPp->urls['regular'];
 
         // Membuat Role
         $superAdminRole = Role::create(['name' => 'administrator']); // Role Superadmin
@@ -102,6 +114,7 @@ class UserSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'administrator@luxima.id',
             'password' => bcrypt('12345678'), // Ganti dengan password yang sesuai
+            'avatar' => $avatarPpUrl
         ])->assignRole('administrator');
 
         //Membuat Admin
@@ -109,20 +122,25 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@luxima.id',
             'password' => bcrypt('12345678'), // Ganti dengan password yang sesuai
+            'avatar' => $avatarPpUrl
         ])->assignRole('admin');
 
         User::create([
             'name' => 'Siddiq Achmad',
             'email' => 'siddiq@luxima.id',
             'password' => bcrypt('12345678'), // Ganti dengan password yang sesuai
+            'avatar' => 'https://siddiq.luxima.id/img/avatars/me.jpg'
         ])->assignRole('admin');
 
         // Membuat Users biasa
         for ($i = 0; $i < 10; $i++) {
+            $avatar = Photo::random(['query' => 'avatar', 'orientation' => 'squarish']);
+            $avatarUrl = $avatar->urls['regular'];
             $user = User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'password' => bcrypt('12345678'), // Ganti dengan password yang sesuai
+                'avatar' => $avatarUrl
             ]);
 
             // Menetapkan Role

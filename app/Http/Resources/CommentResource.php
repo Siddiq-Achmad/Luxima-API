@@ -16,10 +16,13 @@ class CommentResource extends JsonResource
     {
         //return parent::toArray($request);
         return [
+            'id' => $this->id,
+            'user' => $this->user ? $this->user->name : null,
+            'email' => $this->user ? $this->user->email : null,
+            'avatar' => $this->user ? $this->user->avatar : null,
             'content' => $this->content,
-            'user' => $this->user ? $this->user->only(['name', 'email']) : null,
-            'created_at' => \Carbon\Carbon::parse($this->created_at)->format('d-m-Y H:i:s'),
-            'updated_at' => \Carbon\Carbon::parse($this->updated_at)->format('d-m-Y H:i:s'),
+            'createdAt' => \Carbon\Carbon::parse($this->created_at)->format('d-m-Y H:i:s'),
+            'updatedAt' => \Carbon\Carbon::parse($this->updated_at)->format('d-m-Y H:i:s'),
         ];
     }
 }

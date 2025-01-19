@@ -18,11 +18,11 @@ return new class extends Migration
             $table->text('address')->nullable(); // Alamat
             $table->date('birth_date')->nullable(); // Tanggal lahir
             $table->enum('gender', ['male', 'female', 'other'])->nullable(); // Jenis kelamin
-            $table->string('avatar')->nullable(); // Foto profil
             $table->string('nationality', 100)->nullable(); // Kewarganegaraan
             $table->string('languages')->nullable(); // Bahasa yang dikuasai
             $table->string('occupation', 100)->nullable(); // Pekerjaan
             $table->text('bio')->nullable(); // Biografi singkat
+            $table->string('bg_image')->nullable(); // Latar profil
             $table->json('social_media')->nullable();
             $table->string('status')->nullable(); // Status pengguna (Active/Inactive)
             $table->timestamps();

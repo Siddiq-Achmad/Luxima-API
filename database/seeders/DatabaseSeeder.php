@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             BookingSeeder::class,
             ReviewSeeder::class,
+            UserDetailsSeeder::class,
             PersonalAccessTokenSeeder::class,
         ]);
     }

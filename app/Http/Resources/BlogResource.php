@@ -20,7 +20,7 @@ class BlogResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
-            'except' => Str::limit($this->content, 100),
+            'excerpt' => Str::limit($this->content, 100),
             'image' => $this->image,
             'slug' => $this->slug,
             'tags' => $this->tags ? $this->tags->pluck('name') : [],
@@ -30,14 +30,14 @@ class BlogResource extends JsonResource
             'author' => [
                 'name' => $this->author->name,
                 'email' => $this->author->email,
-                'roles' => $this->author->roles->pluck('name') ?? [],
-                'avatar' => $this->author->details ? $this->author->details->avatar : null,
+                'avatar' => $this->author->avatar,
                 'phone' => $this->author->details ? $this->author->details->phone : null,
                 'address' => $this->author->details ? $this->author->details->address : null,
                 'bio' => $this->author->details ? $this->author->details->bio : null,
+                'roles' => $this->author->roles->pluck('name') ?? [],
                 'social' => $this->author->details ? json_decode($this->author->details->social_media) : null
             ],
-            'comments' =>  CommentResource::collection($this->comments),
+            'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

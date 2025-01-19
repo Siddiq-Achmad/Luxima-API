@@ -50,7 +50,6 @@ class BlogSeeder extends Seeder
             $blog = Blog::create([
                 'title' => $faker->sentence,
                 'content' => $faker->paragraph,
-
                 'image' => $imageUrl,
                 'user_id' => User::query()->inRandomOrder()->first()->id,
                 'category_id' => Category::query()->inRandomOrder()->first()->id
