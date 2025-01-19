@@ -42,10 +42,6 @@ Familiarize yourself with Git, Laravel, Laravel Passport, Spatie Laravel Permiss
 -   Spatie Laravel Permission
 -   Unsplash
 
-### Features
-
----
-
 ## Features
 
 ---
