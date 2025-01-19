@@ -23,13 +23,10 @@ class BlogResource extends JsonResource
             'except' => Str::limit($this->content, 100),
             'image' => $this->image,
             'slug' => $this->slug,
-            'tags' => $this->tags,
+            'tags' => $this->tags ? $this->tags->pluck('name') : [],
             'date' => \Carbon\Carbon::parse($this->created_at)->format('d-m-Y'),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'deleted_at' => $this->deleted_at,
             'status' => $this->status,
-            'category' => $this->category,
+            'category' => $this->category ? $this->category->name : null,
             'author' => [
                 'name' => $this->author->name,
                 'email' => $this->author->email,
@@ -38,8 +35,9 @@ class BlogResource extends JsonResource
                 'phone' => $this->author->details ? $this->author->details->phone : null,
                 'address' => $this->author->details ? $this->author->details->address : null,
                 'bio' => $this->author->details ? $this->author->details->bio : null,
-                'social' => $this->author->details ? $this->author->details->social_media : null
+                'social' => $this->author->details ? json_decode($this->author->details->social_media) : null
             ],
+            'comments' =>  CommentResource::collection($this->comments),
         ];
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Location;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Vendor;
@@ -42,9 +45,9 @@ class VendorSeeder extends Seeder
                 'verified' => $faker->numberBetween(0, 1),
                 'status' => $faker->numberBetween(0, 1),
                 'image' => $imageUrl,
-                'user_id' => DB::table('users')->inRandomOrder()->first()->id,
-                'location_id' => DB::table('locations')->inRandomOrder()->first()->id,
-                'category_id' => DB::table('categories')->inRandomOrder()->first()->id
+                'user_id' => User::query()->inRandomOrder()->first()->id,
+                'location_id' => Location::query()->inRandomOrder()->first()->id,
+                'category_id' => Category::query()->inRandomOrder()->first()->id
             ]);
         }
     }
