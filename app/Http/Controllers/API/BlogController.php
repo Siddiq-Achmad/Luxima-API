@@ -73,12 +73,11 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $limit = $request->query('limit', 12);
-        $page = $request->query('page', 1);
+        // Jumlah item per halaman, default ke 10 jika tidak ada parameter `limit`
+        $perPage = $request->input('limit', 12);
 
-        $blogs = Blog::query()
-            ->orderBy('created_at', 'desc')
-            ->paginate($limit, ['*'], 'page', $page);
+        // Query data dengan pagination
+        $blogs = Blog::paginate($perPage);
 
         // $blog = Blog::with('author')->get();
         $length = count($blogs);
@@ -88,7 +87,11 @@ class BlogController extends Controller
                 'status' => 'success',
                 'message' => 'Data Blog',
                 'data' => BlogResource::collection($blogs),
-                'length' => $length
+                'length' => $length,
+                'currentPage' => $blogs->currentPage(),
+                'totalPages' => $blogs->lastPage(),
+                'totalItems' => $blogs->total(),
+                'perPage' => $blogs->perPage(),
             ], 200);
         } else {
             return response()->json([
