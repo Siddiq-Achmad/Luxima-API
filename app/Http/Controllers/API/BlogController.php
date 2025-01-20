@@ -71,16 +71,23 @@ class BlogController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $blog = Blog::with('author')->get();
-        $length = count($blog);
+        $limit = $request->query('limit', 12);
+        $page = $request->query('page', 1);
 
-        if (!empty($blog)) {
+        $blogs = Blog::query()
+            ->orderBy('created_at', 'desc')
+            ->paginate($limit, ['*'], 'page', $page);
+
+        // $blog = Blog::with('author')->get();
+        $length = count($blogs);
+
+        if (!empty($blogs)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data Blog',
-                'data' => BlogResource::collection($blog),
+                'data' => BlogResource::collection($blogs),
                 'length' => $length
             ], 200);
         } else {
