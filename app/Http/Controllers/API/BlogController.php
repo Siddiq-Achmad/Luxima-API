@@ -227,11 +227,17 @@ class BlogController extends Controller
     {
         $blog = Blog::with('author')->where('slug', $slug)->first();
 
+        // Ambil blog sebelumnya dan berikutnya
+        $previous = Blog::where('id', '<', $blog->id)->orderBy('id', 'desc')->first();
+        $next = Blog::where('id', '>', $blog->id)->orderBy('id', 'asc')->first();
+
         if (!empty($blog)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Blog details',
                 'data' => new BlogResource($blog),
+                'previous' => $previous ? $previous->only(['slug', 'title']) : null,
+                'next' => $next ? $next->only(['slug', 'title']) : null,
             ], 200);
         } else {
             return response()->json([
