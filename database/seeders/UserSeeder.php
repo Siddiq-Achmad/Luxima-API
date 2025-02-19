@@ -133,7 +133,7 @@ class UserSeeder extends Seeder
         ])->assignRole('admin');
 
         // Membuat Users biasa
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $avatar = Photo::random(['query' => 'avatar', 'orientation' => 'squarish']);
             $avatarUrl = $avatar->urls['regular'];
             $user = User::create([

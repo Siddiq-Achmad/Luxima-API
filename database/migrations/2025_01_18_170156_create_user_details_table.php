@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relasi ke tabel users
-            $table->string('phone', 15)->nullable(); // Nomor telepon
+            $table->string('phone', 20)->nullable(); // Nomor telepon
             $table->text('address')->nullable(); // Alamat
             $table->date('birth_date')->nullable(); // Tanggal lahir
             $table->enum('gender', ['male', 'female', 'other'])->nullable(); // Jenis kelamin

@@ -1,9 +1,29 @@
 <?php
 
-use App\Http\Controllers\WebController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProfileController;
+
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', WebController::class . '@index')->name('index');
-Route::get('/dashboard', WebController::class . '@dashboard')->name('dashboard');
-Route::get('/login', WebController::class . '@login')->name('auth.login');
-Route::get('/register', WebController::class . '@register')->name('auth.register');
+
+
+
+
+require __DIR__ . '/auth.php';
+
+Route::get('/login', [Controller::class, 'login'])->name('login');
+Route::get('/register', [Controller::class, 'register'])->name('register');
+Route::get('/logout', [Controller::class, 'logout'])->name('logout');
+
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/settings', [ProfileController::class, 'settings'])->name('profile.settings');
+
+    Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
+    Route::get('{any}', [Controller::class, 'index']);
+});

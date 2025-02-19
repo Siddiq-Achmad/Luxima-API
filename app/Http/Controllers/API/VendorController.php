@@ -9,56 +9,11 @@ use Illuminate\Http\Request;
 use App\Http\Resources\VendorResource;
 
 
-/**
- * @OA\Tag(
- *     name="Vendors",
- *     description="API Endpoints for Vendors"
- * )
- *
- *
- * 
- * @OA\Schema(
- *     schema="Vendor",
- *     type="object",
- *     title="Vendor",
- *     required={"id", "name", "slug", "location"},
- *     @OA\Property(property="id", type="integer", description=" ID vendor"),
- *     @OA\Property(property="name", type="string", description="Vendor name"),
- *     @OA\Property(property="slug", type="string", description="Unique slug for vendor"),
- *     @OA\Property(property="description", type="string", description="Vendor description"),
- *     @OA\Property(property="location", type="string", description="Vendor location"),
- *     @OA\Property(property="category", type="string", description="Vendor category"),
- *     @OA\Property(property="created_at", type="string", format="date-time", description="Vendor created at"),
- *     @OA\Property(property="updated_at", type="string", format="date-time", description="Vendor updated at"),
- *     @OA\Property(property="deleted_at", type="string", format="date-time", description="Vendor deleted at"),
- * )
- */
 
 class VendorController extends Controller
 {
-    //
-    //Get Data API Vendors
-    /**
-     * @OA\Get(
-     *     path="/vendors",
-     *     tags={"Vendor"},
-     *     summary="Show all vendors",
-     *     description="Retrieve a list of all vendors.",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successfully retrieved vendors",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Vendor")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized, token tidak valid"
-     *     )
-     * )
-     */
-    public function index()
+
+    public function index(Request $request)
     {
         //
         $vendors = Vendor::all();
@@ -80,47 +35,7 @@ class VendorController extends Controller
         }
     }
 
-    /**
-     * @OA\Get(
-     *     path="/search",
-     *     tags={"Vendor"},
-     *     summary="Search for vendors based on keyword, category, and location",
-     *     description="Search for vendors based on a keyword, category, and location.",
-     *     @OA\Parameter(
-     *         name="q",
-     *         in="query",
-     *         description="Search keyword",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="category",
-     *         in="query",
-     *         description="Slug by category",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="location",
-     *         in="query",
-     *         description="Lokasi vendor",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Data Result Search",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Vendor")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Invalid request parameters"
-     *     )
-     * )
-     */
+
 
 
     public function search(Request $request)
@@ -191,34 +106,7 @@ class VendorController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
 
-    /**
-     * @OA\Get(
-     *     path="/vendor/{slug}",
-     *     tags={"Vendor"},
-     *     summary="Show detail vendor by slug",
-     *     description="Retrieve detail data vendor by slug.",
-     *     @OA\Parameter(
-     *         name="slug",
-     *         in="path",
-     *         required=true,
-     *         description="Unique vendor slug",
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Data Vendor Detail",
-     *         @OA\JsonContent(ref="#/components/schemas/Vendor")
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Vendor not found"
-     *     )
-     * )
-     */
     public function show($slug)
     {
         //
@@ -239,34 +127,6 @@ class VendorController extends Controller
             ], 404);
         }
     }
-
-    /**
-     * @OA\Get(
-     *     path="/{slug}",
-     *     tags={"Vendor"},
-     *     summary="Get Data Vendor By Category",
-     *     description="Retrieve a list of vendors by category.",
-     *     @OA\Parameter(
-     *         name="slug",
-     *         in="path",
-     *         required=true,
-     *         description="Unique Slug",
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Vendor dengan kategori ",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Vendor")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Vendor tidak ditemukan"
-     *     )
-     * )
-     */
 
 
     public function byCategory($slug)

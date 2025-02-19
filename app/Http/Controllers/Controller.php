@@ -2,27 +2,51 @@
 
 namespace App\Http\Controllers;
 
-/*
- * @OA\SecurityScheme(
- *     securityScheme="passport",
- *     type="oauth2",
- *     description="OAuth2 Password Grant",
- *     @OA\Flow(
- *         flow="password",
- *         authorizationUrl="https://api.luxima.id/oauth/authorize",
- *         tokenUrl="https://api.luxima.id/oauth/token",
- *         refreshUrl="https://api.luxima.id/oauth/token",
- *         scopes={
- *             "add-user": "Add New user details",
- *             "edit-user": "Edit user details",
- *             "delete-user": "Delete user details"
- *         }
- *     )
- * )
- * 
- */
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Auth;
 
-abstract class Controller
+class Controller extends BaseController
 {
-    //
+    use AuthorizesRequests, ValidatesRequests;
+
+
+    // public function root()
+    // {
+    //     return view('dashboard');
+    // }
+
+    public function index(Request $request)
+    {
+        if ($request->path() == '/') {
+            if (Auth::check()) {
+                return view('dashboard');
+            } else {
+                return view('auth.login');
+            }
+        } elseif (view()->exists($request->path())) {
+            return view($request->path());
+        } else {
+            abort(404);
+        }
+
+        // return view('index');
+    }
+
+    public function dashboard()
+    {
+        return view('dashboard');
+    }
+
+    public function login()
+    {
+        return view('auth.login');
+    }
+
+    public function register()
+    {
+        return view('auth.register');
+    }
 }

@@ -29,7 +29,7 @@ class VendorSeeder extends Seeder
         ]);
         $faker = Faker::create();
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $photo = Photo::random(['query' => 'Fashion & Beauty']);
             $imageUrl = $photo->urls['regular']; // URL gambar dengan resolusi standar
             Vendor::create([

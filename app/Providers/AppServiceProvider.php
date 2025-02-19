@@ -6,6 +6,9 @@ use Illuminate\Support\ServiceProvider;
 use Unsplash\HttpClient;
 use Carbon\Carbon;
 use Laravel\Passport\Passport;
+use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,7 +31,12 @@ class AppServiceProvider extends ServiceProvider
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
         Passport::enablePasswordGrant();
 
-
+        Scramble::configure()
+            ->withDocumentTransformers(function (OpenApi $openApi) {
+                $openApi->secure(
+                    SecurityScheme::http('bearer')
+                );
+            });
 
         //init unsplash
         HttpClient::init([

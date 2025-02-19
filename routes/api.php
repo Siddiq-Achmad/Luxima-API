@@ -31,12 +31,12 @@ Route::get('/vendor/{slug}', [VendorController::class, 'show'])->name('vendors.s
 Route::get('/search', [VendorController::class, 'search'])->name('vendors.search');
 
 
-Route::post('/auth/register', [AuthController::class, 'register'])->name('register');
-Route::post('/auth/login', [AuthController::class, 'login'])->name('login');
+Route::post('/auth/register', [AuthController::class, 'register'])->name('api.register');
+Route::post('/auth/login', [AuthController::class, 'login'])->name('api.login');
 
 Route::group(['middleware' => 'auth:api'], function () {
 
-    Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/auth/logout', [AuthController::class, 'logout'])->name('api.logout');
     Route::get('/auth/refresh-token', [AuthController::class, 'refreshToken'])->name('users.refresh-token');
     Route::get('/profile', [AuthController::class, 'profile'])->name('users.profile');
 

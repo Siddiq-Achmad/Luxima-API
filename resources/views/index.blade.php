@@ -8,7 +8,7 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet" />
         
 
         <!-- Styles -->
@@ -25,34 +25,34 @@
                         <div class="flex lg:justify-center lg:col-start-2">
                             <img src="/logo.png" alt="Logo" class="h-8" />
                         </div>
-                        @if (Route::has('auth.login'))
-                            <nav class="-mx-3 flex flex-1 justify-end">
-                                @auth
-                                    <a
-                                        href="{{ url('/dashboard') }}"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#A78656] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Dashboard
-                                    </a>
-                                @else
-                                    <a
-                                        href="{{ route('auth.login') }}"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#A78656] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Log in
-                                    </a>
-
-                                    @if (Route::has('auth.register'))
+                            @if (Route::has('login') || Route::has('register') || Route::has('dashboard'))
+                                <nav class="-mx-3 flex flex-1 justify-end">
+                                    @auth
                                         <a
-                                            href="{{ route('auth.register') }}"
-                                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#A78656] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                            href="{{ url('/dashboard') }}"
+                                            class="btn bg-stone-700 rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#A78656] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                         >
-                                            Register
+                                            Dashboard
                                         </a>
-                                    @endif
-                                @endauth
-                            </nav>
-                        @endif
+                                    @else
+                                        <a
+                                            href="{{ route('login') }}"
+                                            class="btn bg-stone-700 rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#A78656] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                        >
+                                            Log in
+                                        </a>
+
+                                        @if (Route::has('register'))
+                                            <a
+                                                href="{{ route('register') }}"
+                                                class="btn bg-stone-700 rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#A78656] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                            >
+                                                Register
+                                            </a>
+                                        @endif
+                                    @endauth
+                                </nav>
+                            @endif
                     </header>
 
                     <main class="mt-6">
