@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
 
+Route::get('/', [Controller::class, 'index'])->name('home');
 Route::get('/login', [Controller::class, 'login'])->name('login');
 Route::get('/register', [Controller::class, 'register'])->name('register');
 Route::get('/logout', [Controller::class, 'logout'])->name('logout');
