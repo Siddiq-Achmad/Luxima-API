@@ -25,7 +25,7 @@ class BlogResource extends JsonResource
             'image' => $this->image,
             'slug' => $this->slug,
             'tags' => $this->tags ? $this->tags->pluck('name') : [],
-            'date' => \Carbon\Carbon::parse($this->created_at)->format('d-m-Y'),
+            'date' => $this->created_at,
             'status' => $this->status,
             'category' => $this->category ? $this->category->name : null,
             'author' => [

@@ -21,8 +21,8 @@ class CommentResource extends JsonResource
             'email' => $this->user ? $this->user->email : null,
             'avatar' => $this->user ? $this->user->avatar : null,
             'content' => $this->content,
-            'createdAt' => \Carbon\Carbon::parse($this->created_at)->format('d-m-Y H:i:s'),
-            'updatedAt' => \Carbon\Carbon::parse($this->updated_at)->format('d-m-Y H:i:s'),
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
         ];
     }
 }

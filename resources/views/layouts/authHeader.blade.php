@@ -9,10 +9,11 @@
   
             <div class="flex items-center lg:order-2 gap-2">
                 
-                <a href="{{ url('/api/documentation') }}"
-                    class="btn bg-golden dark:border-white dark:bg-white dark:text-black dark:hover:bg-white/90 border border-golden rounded-md text-white transition-all duration-300 hover:bg-golden/[0.80] hover:border-golden/[0.80]">Documentation</a>
+                
                     
                 @auth
+                <a href="{{ url('/docs/api') }}"
+                    class="btn bg-golden dark:border-white dark:bg-white dark:text-black dark:hover:bg-white/90 border border-golden rounded-md text-white transition-all duration-300 hover:bg-golden/[0.80] hover:border-golden/[0.80]">Documentation</a>
                     <a
                         href="{{ route('dashboard') }}"
                         class="btn bg-purple dark:border-white dark:bg-white dark:text-black dark:hover:bg-white/90 border border-purple rounded-md text-white transition-all duration-300 hover:bg-purple/[0.85] hover:border-purple/[0.85]"
