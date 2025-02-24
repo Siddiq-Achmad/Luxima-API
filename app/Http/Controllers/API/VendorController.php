@@ -7,8 +7,7 @@ use App\Models\Vendor;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Resources\VendorResource;
-
-
+use App\Models\Location;
 
 class VendorController extends Controller
 {
@@ -46,45 +45,47 @@ class VendorController extends Controller
             'location' => 'nullable|string|max:200',
         ]);
         // Ambil parameter query string
-        $search = $request->input('q'); // Kata kunci pencarian
+        $query = $request->input('q'); // Kata kunci pencarian
         $category = $request->input('category'); // Kategori
         $location = $request->input('location'); // Lokasi
 
-        // Query dasar untuk mencari vendor
-        $query = Vendor::query();
 
-        // Menerapkan filter berdasarkan keyword (search) jika ada
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
+
+        // Query database
+        $vendors = Vendor::query();
+
+        // Filter berdasarkan nama atau deskripsi
+        if ($query) {
+            $vendors->where(function ($q) use ($query) {
+                $q->where('name', 'LIKE', "%{$query}%")
+                    ->orWhere('description', 'LIKE', "%{$query}%");
             });
         }
-
-        // Menerapkan filter berdasarkan kategori jika ada
-        if ($category) {
-            $query->whereHas('category', function ($q) use ($category) {
-                $q->where('name', $category);
-            });
-        }
-
-        // Menerapkan filter berdasarkan lokasi jika ada
+        // Filter berdasarkan lokasi (gunakan relasi location)
         if ($location) {
-            $query->whereHas('location', function ($q) use ($location) {
-                $q->where('city', $location);
+            $vendors->whereHas('location', function ($q) use ($location) {
+                $q->where('city', 'LIKE', "%{$location}%");
+            });
+        }
+
+        // Filter berdasarkan kategori (gunakan relasi category)
+        if ($category) {
+            $vendors->whereHas('category', function ($q) use ($category) {
+                $q->where('name', 'LIKE', "%{$category}%");
             });
         }
 
         // Eksekusi query dan ambil hasil dengan relasi
-        $vendors = $query->with(['category', 'location'])->get();
+        //$result = $query->with(['category', 'location'])->get();
+        $results = $vendors->get();
 
-        $length = count($vendors);
+        $length = count($results);
 
-        if (!empty($vendors)) {
+        if (!empty($results)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Search Result Data Vendor',
-                'data' => VendorResource::collection($vendors),
+                'data' => VendorResource::collection($results),
                 'query' => $request->all(),
                 'length' => $length
             ], 200);
@@ -129,17 +130,17 @@ class VendorController extends Controller
     }
 
 
-    public function byCategory($slug)
+    public function byCategory($category)
     {
         //
-        $category = Category::with('vendors')->where('slug', $slug)->first();
-        $vendors = $category->vendors ?? [];
+        $categories = Category::with('vendors')->where('slug', $category)->first();
+        $vendors = $categories->vendors ?? [];
         $length = count($vendors);
         if (!empty($vendors)) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Data Vendor by Category | ' . ucwords($slug),
-                'data' => VendorResource::collection($vendors),
+                'message' => 'Data Vendor by Category | ' . ucwords($category),
+                'data' => $length > 0 ? VendorResource::collection($vendors) : "No Data w/ this Category",
                 'length' => $length
             ], 200);
         } else {
@@ -150,6 +151,30 @@ class VendorController extends Controller
             ], 404);
         }
     }
+
+    public function byLocation($location)
+    {
+        //
+        $locations = Location::with('vendors')->where('slug', $location)->first();
+        $vendors = $locations->vendors ?? [];
+        $length = count($vendors);
+        if (!empty($vendors)) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data Vendor by Location | ' . ucwords($location),
+                'data' => $length > 0 ? VendorResource::collection($vendors) : "No Data w/ this Location",
+                'length' => $length
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data not Found',
+                'code' => 404,
+            ], 404);
+        }
+    }
+
+
 
     /**
      * Update the specified resource in storage.

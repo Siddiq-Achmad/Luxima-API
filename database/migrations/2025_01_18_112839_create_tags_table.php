@@ -25,6 +25,14 @@ return new class extends Migration
             $table->foreignId('tag_id')->constrained('tags')->onDelete('cascade');
             $table->timestamps();
         });
+
+        // Pivot table for many-to-many relationship between vendor and tags
+        Schema::create('vendor_tag', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('vendor_id')->constrained('vendors')->onDelete('cascade');
+            $table->foreignId('tag_id')->constrained('tags')->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -33,6 +41,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('blog_tag');
+        Schema::dropIfExists('vendor_tag');
         Schema::dropIfExists('tags');
     }
 };

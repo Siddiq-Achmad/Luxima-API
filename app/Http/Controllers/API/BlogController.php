@@ -44,46 +44,46 @@ class BlogController extends Controller
     }
 
 
-    public function listBlog()
-    {
-        $Blog = Blog::where('user_id', Auth::user()->id)->get();
-        $length = count($Blog);
+    // public function listBlog()
+    // {
+    //     $Blog = Blog::where('user_id', Auth::user()->id)->get();
+    //     $length = count($Blog);
 
-        if (!empty($Blog)) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'All Blog',
-                'data' => BlogResource::collection($Blog),
-                'length' => $length
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'No blog found',
-            ], 404);
-        }
-    }
-
-
-    public function getSingleBlog($blog_id)
-    {
+    //     if (!empty($Blog)) {
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'message' => 'All Blog',
+    //             'data' => BlogResource::collection($Blog),
+    //             'length' => $length
+    //         ], 200);
+    //     } else {
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => 'No blog found',
+    //         ], 404);
+    //     }
+    // }
 
 
-        $blog = Blog::where('id', $blog_id, 'user_id', Auth::user()->id)->first();
+    // public function getSingleBlog($blog_id)
+    // {
 
-        if (!empty($blog)) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Blog details',
-                'data' => $blog,
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'No blog found',
-            ], 404);
-        }
-    }
+
+    //     $blog = Blog::where('id', $blog_id, 'user_id', Auth::user()->id)->first();
+
+    //     if (!empty($blog)) {
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'message' => 'Blog details',
+    //             'data' => $blog,
+    //         ], 200);
+    //     } else {
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => 'No blog found',
+    //         ], 404);
+    //     }
+    // }
 
 
     public function getBlogBySlug($slug)

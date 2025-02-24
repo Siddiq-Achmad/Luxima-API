@@ -40,9 +40,9 @@ class AppServiceProvider extends ServiceProvider
 
         //init unsplash
         HttpClient::init([
-            'applicationId'    => env('UNSPLASH_ACCESS_KEY'),
-            'secret'    => env('UNSPLASH_SECRET_KEY'),
-            'callbackUrl'    => '',
+            'applicationId' => env('UNSPLASH_ACCESS_KEY'), // Key Anda di sini
+            'secret' => env('UNSPLASH_SECRET_KEY'),
+            'callbackUrl' => env('UNSPLASH_CALLBACK_URL'),
             'utmSource' => 'LUXIMA-API'
         ]);
     }

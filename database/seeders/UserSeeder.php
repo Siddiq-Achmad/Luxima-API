@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Permission;
 use Faker\Factory as Faker;
 use Unsplash\HttpClient;
 use Unsplash\Photo;
+use Illuminate\Support\Facades\Cache;
 
 class UserSeeder extends Seeder
 {
@@ -19,17 +20,19 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         //
-        HttpClient::init([
-            'applicationId' => env('UNSPLASH_ACCESS_KEY'), // Key Anda di sini
-            'secret' => env('UNSPLASH_SECRET_KEY'),
-            'callbackUrl' => env('UNSPLASH_CALLBACK_URL'),
-            'utmSource' => 'LUXIMA-API'
-        ]);
+
         $faker = Faker::create();
 
         // Mengambil gambar avatar dari Unsplash
-        $avatarPp = Photo::random(['query' => 'avatar', 'orientation' => 'squarish']);
-        $avatarPpUrl = $avatarPp->urls['regular'];
+        // $avatarPp = Photo::random(['query' => 'avatar', 'orientation' => 'squarish']);
+        // $avatarPpUrl = $avatarPp->urls['regular'];
+        $avatarUrl = Cache::remember('unsplash_avatar', now()->addHours(1), function () {
+            $avatar = Photo::random([
+                'query' => 'avatar',
+                'orientation' => 'squarish'
+            ]);
+            return $avatar->urls['regular']; // Ambil URL gambar dari Unsplash
+        });
 
         // Membuat Role
         $superAdminRole = Role::create(['name' => 'administrator']); // Role Superadmin
@@ -114,7 +117,7 @@ class UserSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'administrator@luxima.id',
             'password' => bcrypt('12345678'), // Ganti dengan password yang sesuai
-            'avatar' => $avatarPpUrl
+            'avatar' => $avatarUrl
         ])->assignRole('administrator');
 
         //Membuat Admin
@@ -122,7 +125,7 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@luxima.id',
             'password' => bcrypt('12345678'), // Ganti dengan password yang sesuai
-            'avatar' => $avatarPpUrl
+            'avatar' => $avatarUrl
         ])->assignRole('admin');
 
         User::create([
@@ -134,17 +137,24 @@ class UserSeeder extends Seeder
 
         // Membuat Users biasa
         for ($i = 0; $i < 5; $i++) {
-            $avatar = Photo::random(['query' => 'avatar', 'orientation' => 'squarish']);
-            $avatarUrl = $avatar->urls['regular'];
+            $avatarImages = Cache::remember('unsplash_avatar', now()->addHours(1), function () {
+                $avatar = Photo::random([
+                    'query' => 'avatar',
+                    'orientation' => 'squarish'
+                ]);
+                return $avatar->urls['regular']; // Ambil URL gambar dari Unsplash
+            });
+
             $user = User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'password' => bcrypt('12345678'), // Ganti dengan password yang sesuai
-                'avatar' => $avatarUrl
+                'avatar' => $avatarImages
             ]);
 
             // Menetapkan Role
             $user->assignRole($faker->randomElement(['admin', 'vendor', 'customer']));
         }
+        $this->command->info('UserSeeder berhasil dijalankan!');
     }
 }

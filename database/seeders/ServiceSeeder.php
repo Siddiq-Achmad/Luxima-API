@@ -19,7 +19,7 @@ class ServiceSeeder extends Seeder
 
         $faker = Faker::create();
 
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 12; $i++) {
             Service::create([
                 'vendor_id' => DB::table('vendors')->inRandomOrder()->first()->id,
                 'service_name' => $faker->name,

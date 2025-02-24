@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Unsplash\HttpClient;
 use Unsplash\Photo;
 use Unsplash\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class BlogSeeder extends Seeder
 {
@@ -23,14 +24,11 @@ class BlogSeeder extends Seeder
     {
         //
 
-        HttpClient::init([
-            'applicationId' => env('UNSPLASH_ACCESS_KEY'), // Key Anda di sini
-            'secret' => env('UNSPLASH_SECRET_KEY'),
-            'callbackUrl' => env('UNSPLASH_CALLBACK_URL'),
-            'utmSource' => 'LUXIMA-API'
-        ]);
+
 
         $collectionId = 'we1aS2RZQuM'; // Ganti dengan ID koleksi Anda
+
+
 
         // Ambil semua tags, users, dan categories
         $tags = Tag::all();
@@ -39,18 +37,24 @@ class BlogSeeder extends Seeder
         $faker = Faker::create();
 
         for ($i = 0; $i < 20; $i++) {
-            $photo = Photo::random([
-                'collections' => $collectionId,
-                'orientation' => 'landscape',
-            ]);
-            $imageUrl = $photo->urls['regular']; // URL gambar dengan resolusi standar
 
-
+            // Ambil gambar dari cache atau Unsplash jika belum ada
+            $images = Cache::remember(
+                "unsplash_collection_{$collectionId}_{$i}",
+                now()->addHours(1),
+                function () use ($collectionId) {
+                    $photo = Photo::random([
+                        'collections' => $collectionId,
+                        'orientation' => 'landscape'
+                    ]);
+                    return $photo->urls['regular'];
+                }
+            );
 
             $blog = Blog::create([
                 'title' => $faker->sentence,
                 'content' => $faker->paragraph,
-                'image' => $imageUrl,
+                'image' => $images,
                 'user_id' => User::query()->inRandomOrder()->first()->id,
                 'category_id' => Category::query()->inRandomOrder()->first()->id
             ]);

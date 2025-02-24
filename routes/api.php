@@ -28,6 +28,9 @@ Route::get('/booking/{id}', [BookingController::class, 'show'])->name('bookings.
 
 Route::get('/vendors', [VendorController::class, 'index'])->name('vendors.index');
 Route::get('/vendor/{slug}', [VendorController::class, 'show'])->name('vendors.show');
+Route::get('/vendor/category/{category}', [VendorController::class, 'byCategory'])->name('vendors.byCategory');
+Route::get('/vendor/location/{location}', [VendorController::class, 'byLocation'])->name('vendors.byLocation');
+// Route::get('/{slug}', [VendorController::class, 'byCategory'])->name('vendors.slug');
 Route::get('/search', [VendorController::class, 'search'])->name('vendors.search');
 
 
@@ -47,5 +50,3 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Route::get('/list-blogs', [BlogController::class, 'listBlogs']);
     Route::get('/blog-details/{blog_id}', [BlogController::class, 'getSingleBlog']);
 });
-
-Route::get('/{slug}', [VendorController::class, 'byCategory'])->name('vendors.slug');

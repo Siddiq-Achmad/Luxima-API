@@ -38,7 +38,7 @@ class Location extends Model
 
     public function vendors()
     {
-        return $this->hasMany(Vendor::class);
+        return $this->hasMany(Vendor::class, 'location_id');
     }
 
     public function events()

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\UserDetail;
 use Unsplash\HttpClient;
 use Unsplash\Photo;
+use Illuminate\Support\Facades\Cache;
 
 class UserDetailsSeeder extends Seeder
 {
@@ -18,17 +19,24 @@ class UserDetailsSeeder extends Seeder
     public function run(): void
     {
         //
-        HttpClient::init([
-            'applicationId' => env('UNSPLASH_ACCESS_KEY'), // Key Anda di sini
-            'secret' => env('UNSPLASH_SECRET_KEY'),
-            'callbackUrl' => env('UNSPLASH_CALLBACK_URL'),
-            'utmSource' => 'LUXIMA-API'
-        ]);
+        // HttpClient::init([
+        //     'applicationId' => env('UNSPLASH_ACCESS_KEY'), // Key Anda di sini
+        //     'secret' => env('UNSPLASH_SECRET_KEY'),
+        //     'callbackUrl' => env('UNSPLASH_CALLBACK_URL'),
+        //     'utmSource' => 'LUXIMA-API'
+        // ]);
+
+        $bgUrl = Cache::remember('unsplash_background', now()->addHours(1), function () {
+            $avatar = Photo::random([
+                'query' => 'background',
+                'orientation' => 'landscape'
+            ]);
+            return $avatar->urls['regular']; // Ambil URL gambar dari Unsplash
+        });
         $faker = Faker::create();
 
         for ($i = 0; $i < 12; $i++) {
-            $bg = Photo::random(['query' => 'background', 'orientation' => 'landscape']);
-            $bgUrl = $bg->urls['regular'];
+
             UserDetail::create([
                 'user_id' => User::query()->inRandomOrder()->first()->id,
                 'phone' => $faker->phoneNumber,

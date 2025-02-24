@@ -8,7 +8,42 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'name', 'email', 'phone_number', 'address'];
+    protected $fillable = [
+        'slug',
+        'name',
+        'address',
+        'rating',
+        'review_count',
+        'description',
+        'image',
+        'is_featured',
+        'verified',
+        'is_active',
+        'gallery',
+        'owner',
+        'contact',
+        'social',
+        'working_hours',
+        'coordinates',
+        'meta',
+        'user_id',
+        'category_id',
+        'location_id',
+    ];
+
+    protected $casts = [
+        'is_featured' => 'boolean',
+        'verified' => 'boolean',
+        'is_active' => 'boolean',
+        'gallery' => 'array',
+        'owner' => 'array',
+        'contact' => 'array',
+        'social' => 'array',
+        'working_hours' => 'array',
+        'coordinates' => 'array',
+        'meta' => 'array',
+
+    ];
     public function sluggable(): array
     {
         return [
@@ -71,11 +106,15 @@ class Vendor extends Model
 
     public function location()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(Location::class, 'location_id');
     }
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'vendor_tag');
     }
 }
