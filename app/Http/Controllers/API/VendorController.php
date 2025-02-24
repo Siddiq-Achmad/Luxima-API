@@ -15,14 +15,27 @@ class VendorController extends Controller
     public function index(Request $request)
     {
         //
-        $vendors = Vendor::all();
+
+        // Jumlah item per halaman, default ke 12 jika tidak ada parameter `limit`
+        $perPage = $request->input('limit', 12);
+
+        // Query data dengan pagination
+        $vendors = Vendor::paginate($perPage);
         $length = count($vendors);
+
+        // $vendors = Vendor::all();
+        // $length = count($vendors);
+
         if (!empty($vendors)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data Vendors',
                 'data' => VendorResource::collection($vendors),
-                'length' => $length
+                'length' => $length,
+                'currentPage' => $vendors->currentPage(),
+                'totalPages' => $vendors->lastPage(),
+                'totalItems' => $vendors->total(),
+                'perPage' => $vendors->perPage(),
             ], 200);
         } else {
             return response()->json([
