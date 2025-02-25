@@ -27,13 +27,13 @@ class ServiceResource extends JsonResource
             'duration' => $this->duration,
             'price' => $this->price,
             'discount' => $this->discount,
-            'discount_price' => $this->discount_price,
+            'discountPrice' => $this->discount_price,
             'views' => $this->views,
             'likes' => $this->likes,
             'dislikes' => $this->dislikes,
             'rating' => $this->rating,
-            'review_count' => $this->review_count,
-            'created_at' => $this->created_at
+            'reviewCount' => $this->review_count,
+            'createdAt' => $this->created_at
         ];
     }
 }
