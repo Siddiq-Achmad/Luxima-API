@@ -16,9 +16,24 @@ class ServiceResource extends JsonResource
     {
         //return parent::toArray($request);
         return [
-            'name' => $this->service_name,
+            'id' => $this->id,
+            'vendor' => new VendorResource($this->whenLoaded('vendor')),
+            'title' => $this->title,
             'description' => $this->description,
+            'image' => $this->image,
+            'thumbnail' => $this->thumbnail,
+            'status' => $this->status,
+            'unit' => $this->unit,
+            'duration' => $this->duration,
             'price' => $this->price,
+            'discount' => $this->discount,
+            'discount_price' => $this->discount_price,
+            'views' => $this->views,
+            'likes' => $this->likes,
+            'dislikes' => $this->dislikes,
+            'rating' => $this->rating,
+            'review_count' => $this->review_count,
+            'created_at' => $this->created_at
         ];
     }
 }

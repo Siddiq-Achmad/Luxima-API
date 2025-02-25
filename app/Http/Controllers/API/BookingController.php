@@ -13,6 +13,9 @@ use App\Http\Resources\BookingResource;
 class BookingController extends Controller
 {
 
+    /**
+     * Display a listing of the resource.
+     */
     public function index(Request $request)
     {
         //
@@ -42,9 +45,13 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         //
+
     }
 
 
+    /**
+     * Display the specified resource.
+     */
     public function show($id)
     {
         //

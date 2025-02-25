@@ -2,21 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Review extends Model
+class Testimonial extends Model
 {
+    //
     use HasFactory;
 
     protected $fillable = [
         'user_id',
-        'vendor_id',
-        'service_id',
-        'event_id',
-        'title',
-        'content',
-        'rating',
+        'quote',
+        'is_approved'
     ];
 
     public function getCreatedAtAttribute($value)
@@ -34,24 +31,8 @@ class Review extends Model
         return $value ? \Carbon\Carbon::parse($value)->format('d-m-Y H:i:s') : null;
     }
 
-
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function vendor()
-    {
-        return $this->belongsTo(Vendor::class);
-    }
-
-    public function service()
-    {
-        return $this->belongsTo(Service::class);
-    }
-
-    public function event()
-    {
-        return $this->belongsTo(Event::class);
     }
 }

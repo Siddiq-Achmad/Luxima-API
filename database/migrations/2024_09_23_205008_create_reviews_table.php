@@ -18,7 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('service_id')->nullable();
             $table->unsignedBigInteger('event_id')->nullable();
             $table->tinyInteger('rating')->default(0); // Rating from 1 to 5
-            $table->text('comment')->nullable();
+            $table->string('title')->nullable();
+            $table->text('content')->nullable();
             $table->timestamps();
 
             // Foreign key relationships

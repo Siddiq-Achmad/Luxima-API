@@ -18,13 +18,28 @@ class ReviewSeeder extends Seeder
         //
         $faker = Faker::create();
 
+
+
+
         for ($i = 0; $i < 30; $i++) {
+            // Ambil data yang ada
+            $user = DB::table('users')->inRandomOrder()->first();
+            $vendor = DB::table('vendors')->inRandomOrder()->first();
+            $service = DB::table('services')->inRandomOrder()->first();
+            $event = DB::table('events')->inRandomOrder()->first();
+
+            // Check apakah data ada
+            if (!$user || !$vendor) {
+                return;
+            }
             Review::create([
-                'user_id' => DB::table('users')->inRandomOrder()->first()->id,
-                'vendor_id' => DB::table('vendors')->inRandomOrder()->first()->id,
-                'service_id' => DB::table('services')->inRandomOrder()->first()->id,
+                'user_id' => $user->id,
+                'vendor_id' => $vendor->id,
+                'service_id' => $service?->id, // Gunakan null safe operator (PHP 8+)
+                'event_id' => $event?->id, // Gunakan null safe operator (PHP 8+)
+                'title' => $faker->sentence,
+                'content' => $faker->paragraph,
                 'rating' => $faker->numberBetween(1, 5),
-                'comment' => $faker->text,
             ]);
         }
     }

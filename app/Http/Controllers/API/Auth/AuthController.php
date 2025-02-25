@@ -76,14 +76,21 @@ class AuthController extends BaseController
     {
         $user = Auth::user();
 
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'user' => $user,
-                'roles' => $user->getRoleNames(),
-                'permissions' => $user->getAllPermissions()->pluck('name'),
-            ]
-        ], 200);
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found'
+            ], 404);
+        } else {
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'user' => $user,
+                    'roles' => $user->getRoleNames(),
+                    'permissions' => $user->getAllPermissions()->pluck('name'),
+                ]
+            ], 200);
+        }
     }
 
 

@@ -115,13 +115,7 @@ class VendorSeeder extends Seeder
         $randomTags = $tags->random(rand(1, 3));
         $vendor->tags()->attach($randomTags->pluck('id')->toArray());
 
-        $services = [
-            ['vendor_id' => $vendor->id, 'service_name' => 'Studio Photography', 'description' => 'Layanan foto Studio', 'price' => 300000],
-            ['vendor_id' => $vendor->id, 'service_name' => 'Pre-Wedding Photography', 'description' => 'Layanan foto pre-wedding', 'price' => 5000000],
-            ['vendor_id' => $vendor->id, 'service_name' => 'Wedding Photography', 'description' => 'Layanan foto saat acara pernikahan', 'price' => 10000000],
-        ];
 
-        Service::insert($services);
 
         for ($i = 0; $i < 12; $i++) {
 
@@ -191,14 +185,6 @@ class VendorSeeder extends Seeder
             //Lampirkan Tags secara acak
             $randomTags = $tags->random(rand(1, 3));
             $vendor->tags()->attach($randomTags->pluck('id')->toArray());
-
-            // Tambahkan layanan ke vendor
-            $services = [
-                ['vendor_id' => $vendor->id, 'service_name' => $faker->sentence(), 'description' => $faker->sentence(), 'price' => $faker->numberBetween(100000, 10000000)],
-                ['vendor_id' => $vendor->id, 'service_name' => $faker->sentence(), 'description' => $faker->sentence(), 'price' => $faker->numberBetween(100000, 10000000)]
-            ];
-
-            Service::insert($services);
         }
     }
 }

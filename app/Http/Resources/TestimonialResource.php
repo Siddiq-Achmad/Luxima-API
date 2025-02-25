@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ReviewResource extends JsonResource
+class TestimonialResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,16 +15,14 @@ class ReviewResource extends JsonResource
     public function toArray(Request $request): array
     {
         //return parent::toArray($request);
+
         return [
             'id' => $this->id,
-            'name' => optional($this->user)->name,
-            'email' => optional($this->user)->email,
-            'vendor' => optional($this->vendor)->name,
-            'service' => optional($this->service)->title,
-            'event' => optional($this->event)->title,
-            'rating' => $this->rating,
-            'title' => $this->title,
-            'content' => $this->content,
+            'name' => $this->user->name,
+            'email' => $this->user->email,
+            'occupation' => $this->user->details && isset($this->user->details->occupation) ? $this->user->details->occupation : 'Not Provided', // Ambil dari UserDetail
+            'quote' => $this->quote,
+            'isApproved' => $this->is_approved === 1 ? true : false,
             'createdAt' => $this->created_at
         ];
     }

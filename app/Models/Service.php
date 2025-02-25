@@ -9,7 +9,7 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['vendor_id', 'service_name', 'description', 'price'];
+    protected $fillable = ['vendor_id', 'title', 'description', 'image', 'thumbnail', 'status', 'unit', 'duration', 'price', 'discount', 'discount_price', 'views', 'likes', 'dislikes', 'rating', 'review_count'];
 
     public function getCreatedAtAttribute($value)
     {
@@ -30,5 +30,10 @@ class Service extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             BookingSeeder::class,
             ReviewSeeder::class,
             UserDetailsSeeder::class,
+            TestimonialSeeder::class,
             // PersonalAccessTokenSeeder::class,
         ]);
     }
