@@ -19,6 +19,7 @@ class ReviewResource extends JsonResource
             'id' => $this->id,
             'name' => optional($this->user)->name,
             'email' => optional($this->user)->email,
+            'avatar' => optional($this->user)->avatar,
             'vendor' => optional($this->vendor)->name,
             'service' => optional($this->service)->title,
             'event' => optional($this->event)->title,

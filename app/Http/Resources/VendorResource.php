@@ -65,8 +65,10 @@ class VendorResource extends JsonResource
                 'created_at' => $this->created_at,
                 'category' => CategoryResource::make($this->category),
                 'user' => UserResource::make($this->user),
-                'location' => LocationResource::make($this->location),
+                'location' => $this->location->city . ', ' . $this->location->state,
                 'services' => ServiceResource::collection($this->services),
+
+
             ];
         }
 

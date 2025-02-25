@@ -117,4 +117,9 @@ class Vendor extends Model
     {
         return $this->belongsToMany(Tag::class, 'vendor_tag');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
