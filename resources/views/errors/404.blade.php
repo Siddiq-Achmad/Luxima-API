@@ -11,7 +11,7 @@
                 <p class="text-base text-muted dark:text-darkmuted">Sorry, we can’t find that page.</p>
                 <img src="{{ URL::asset('build/images/404.svg') }}" class="mx-auto sm:max-w-xs" alt="">
                 <div>
-                    <a href="{{ url('index') }}"
+                    <a href="{{ url('/') }}"
                         class="inline-block transition-all duration-300 border rounded btn text-purple border-purple hover:bg-purple hover:text-white">
                         Back To Home
                     </a>
